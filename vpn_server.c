@@ -55,15 +55,14 @@ void configure_ssl_context(SSL_CTX *ctx) {
     }
 }
 
-// Add these helper functions at the top
+
 const char* get_session_duration() {
     static char buf[20];
-    // In real implementation, calculate duration
     snprintf(buf, sizeof(buf), "00:%02d:%02d", rand()%60, rand()%60);
     return buf;
 }
 
-// Modify the handle_client function
+
 void handle_client(SSL *ssl) {
     if (!authenticate_client(ssl)) {
         SSL_shutdown(ssl);
@@ -73,7 +72,7 @@ void handle_client(SSL *ssl) {
 
     generate_keys();
     
-    // Send keys to client
+    
     if (SSL_write(ssl, aes_key, sizeof(aes_key)) <= 0 ||
         SSL_write(ssl, hmac_key, sizeof(hmac_key)) <= 0) {
         fprintf(stderr, "[-] Key exchange failed\n");
@@ -106,7 +105,7 @@ void handle_client(SSL *ssl) {
 
         printf("[Client Command]: %s\n", decrypted);
 
-        // Command processing
+        
         if (strncmp(decrypted, "connect ", 8) == 0) {
             char* target = decrypted + 8;
             snprintf(response, sizeof(response),
@@ -143,7 +142,7 @@ void handle_client(SSL *ssl) {
             strcpy(response, "Unknown VPN command");
         }
 
-        // Encrypt and send response
+        
         unsigned char encrypted[BUFFER_SIZE];
         int enc_len = encrypt_packet(response, encrypted);
         
