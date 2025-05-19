@@ -22,22 +22,19 @@ SSL_CTX* initialize_ssl_context() {
         exit(EXIT_FAILURE);
     }
 
-    /* Set to use the CA certificate */
+    
     if (!SSL_CTX_load_verify_locations(ctx, CA_CERTIFICATE, NULL)) {
         fprintf(stderr, "Error loading CA certificate\n");
         ERR_print_errors_fp(stderr);
         exit(EXIT_FAILURE);
     }
 
-    /* Enable certificate verification */
+    
     SSL_CTX_set_verify(ctx, SSL_VERIFY_PEER, NULL);
     SSL_CTX_set_verify_depth(ctx, 1);
 
     return ctx;
 }
-
-
-// [Previous functions remain the same until authenticate_with_server...]
 
 int authenticate_with_server(SSL *ssl) {
     char username[50], password[50];
@@ -58,7 +55,6 @@ int authenticate_with_server(SSL *ssl) {
     
     if (strcmp(response, "AUTH_OK") == 0) {
         printf("[+] Authentication successful\n");
-        // Receive keys from server
         if (SSL_read(ssl, aes_key, sizeof(aes_key)) <= 0 ||
             SSL_read(ssl, hmac_key, sizeof(hmac_key)) <= 0) {
             fprintf(stderr, "[-] Key exchange failed\n");
@@ -71,7 +67,7 @@ int authenticate_with_server(SSL *ssl) {
     }
 }
 
-// Add this helper function
+
 void print_help() {
     printf("\nVPN Commands:\n");
     printf("connect <host> - Establish VPN connection\n");
@@ -82,7 +78,6 @@ void print_help() {
     printf("exit          - Quit VPN client\n\n");
 }
 
-// Modify the client_loop function
 void client_loop(SSL *ssl) {
     char message[BUFFER_SIZE];
     unsigned char encrypted[BUFFER_SIZE];
@@ -100,7 +95,6 @@ void client_loop(SSL *ssl) {
 
         if (strcmp(message, "exit") == 0 || 
             strcmp(message, "disconnect") == 0) {
-            // Send the command before exiting
             enc_len = encrypt_packet(message, encrypted);
             SSL_write(ssl, encrypted, enc_len);
             break;
