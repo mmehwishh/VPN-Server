@@ -17,7 +17,6 @@
 #define SERVER_CONFIG_FILE "config/server_config.conf"
 #define CLIENT_CONFIG_FILE "config/client_config.conf"
 
-// Add these to your existing defines
 #define MAX_CMD_LENGTH 128
 #define MAX_RESPONSE_LENGTH 1024
 
