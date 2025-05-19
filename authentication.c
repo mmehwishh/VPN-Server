@@ -9,13 +9,6 @@
 #include <openssl/ssl.h>
 #include <openssl/err.h>
 
-
-
-
-
-
-
-
 typedef struct {
     const char *username;
     const char *password;
@@ -30,13 +23,13 @@ User valid_users[] = {
 #define USER_COUNT (sizeof(valid_users) / sizeof(User))
 
 int authenticate(const char *username, const char *password) {
-    for (int i = 0; i < (int)USER_COUNT; i++) { // Cast to int for comparison
+    for (int i = 0; i < (int)USER_COUNT; i++) { 
         if (strcmp(username, valid_users[i].username) == 0 &&
             strcmp(password, valid_users[i].password) == 0) {
-            return 1; // Auth success
+            return 1; 
         }
     }
-    return 0; // Auth failed
+    return 0; 
 }
 
 int authenticate_client(SSL *ssl) {
