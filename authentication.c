@@ -65,8 +65,9 @@ int validate_certificate(const char *cert_file) {
         return 0;
     }
 
-    // Placeholder: You could validate issuer, subject, expiry, etc.
+    
     printf("[+] Certificate loaded and basic check passed.\n");
     X509_free(cert);
     return 1;
 }
+
