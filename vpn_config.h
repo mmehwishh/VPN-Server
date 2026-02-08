@@ -30,6 +30,7 @@
 
 // Other settings
 #define MAX_CLIENTS 10
-#define TIMEOUT 30 // in seconds
-#define SERVER_PORT 8443  // Change from 443 to 8443
+#define TIMEOUT 30 
+#define SERVER_PORT 8443  
 #endif // VPN_CONFIG_H
+
